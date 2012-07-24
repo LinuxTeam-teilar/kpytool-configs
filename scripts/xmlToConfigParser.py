@@ -9,6 +9,14 @@ class xmlToConfigParser(object):
 
     def __init__(self, xml_source, configDestinationPath):
 
+        raw_input("""
+        If this isn\'t the first time that you use this script.
+        It will mess up your config files! So don\'t use it \n
+        Press enter to continue...
+        """)
+
+        print 'please wait....!'
+
         #now create the config path
         #this is the path in which we will store our configs
         tmpPath = path.abspath(configDestinationPath)
@@ -22,7 +30,6 @@ class xmlToConfigParser(object):
                 mkdir(self.configPath)
 
         #open the xml
-        print 'please wait....!'
         xml = urllib2.urlopen(xml_source)
 
         #create our soup!
@@ -188,7 +195,6 @@ class xmlToConfigParser(object):
                         with open(configFilePath, 'a') as f:
                             #write the data in it!
                             config.write(f)
-
 
 #this is the xml which kde-projects provided
 XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
