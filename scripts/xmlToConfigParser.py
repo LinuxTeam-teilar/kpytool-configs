@@ -203,7 +203,7 @@ class xmlToConfigParser(object):
                         try:
                             config.set(modulePath[1], 'git', module.repo.url.string)
                         except AttributeError:
-                            pass
+                            continue
                         #create our config file
                         with open(configFilePath, 'a') as f:
                             #write the data in it!
