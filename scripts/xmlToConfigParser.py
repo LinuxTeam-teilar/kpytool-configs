@@ -212,5 +212,5 @@ class xmlToConfigParser(object):
 #this is the xml which kde-projects provided
 XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
 
-worker = xmlToConfigParser(XML_SOURCE, getcwd())
+worker = xmlToConfigParser(XML_SOURCE, getcwd()) #TODO go up one dir!
 worker.do()
