@@ -17,9 +17,29 @@ class xmlToConfigParser(object):
 
         print 'please wait....!'
 
+        #take the path
+        self.configDestinationPath = configDestinationPath
+
+        #take the xml_source
+        self.xml_source = xml_source
+
+        #start the work
+        self.do()
+
+    """
+    This method will do the actual work.
+    """
+    def do(self):
+        #create the soup and the config dir
+        self._createConfigDirAndSoup()
+
+        #create the directories
+        self._createComponentDirectories()
+
+    def _createConfigDirAndSoup(self):
         #now create the config path
         #this is the path in which we will store our configs
-        tmpPath = path.abspath(configDestinationPath)
+        tmpPath = path.abspath(self.configDestinationPath)
 
         if not path.exists(tmpPath) and not path.isdir(tmpPath):
             print "errorrrrrrrrrrrrr!"
@@ -30,17 +50,10 @@ class xmlToConfigParser(object):
                 mkdir(self.configPath)
 
         #open the xml
-        xml = urllib2.urlopen(xml_source)
+        xml = urllib2.urlopen(self.xml_source)
 
         #create our soup!
         self.soup = BeautifulSoup(xml.read())
-
-    """
-    This method will do the actual work.
-    """
-    def do(self):
-        #first create the directories
-        self._createComponentDirectories()
 
     """
     This method will create the directories for each
