@@ -9,6 +9,10 @@ class xmlToConfigParser(object):
 
     def __init__(self, xml_source, configDestinationPath):
 
+        print """
+        The config dirs will be created in the current dir,
+        if you aren't in the current dir, abort!!!
+        """
         raw_input("""
         If this isn\'t the first time that you use this script.
         It will mess up your config files! So don\'t use it \n
@@ -40,14 +44,10 @@ class xmlToConfigParser(object):
         #now create the config path
         #this is the path in which we will store our configs
         tmpPath = path.abspath(self.configDestinationPath)
+        self.configPath = tmpPath + '/config/'
 
-        if not path.exists(tmpPath) and not path.isdir(tmpPath):
-            print "errorrrrrrrrrrrrr!"
-            return;
-        else:
-            self.configPath = tmpPath + '/config/'
-            if not path.exists(self.configPath):
-                mkdir(self.configPath)
+        if not path.exists(self.configPath):
+            mkdir(self.configPath)
 
         #open the xml
         xml = urllib2.urlopen(self.xml_source)
@@ -212,13 +212,5 @@ class xmlToConfigParser(object):
 #this is the xml which kde-projects provided
 XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
 
-#we don't want to put the config stuff inside the scripts dir,
-#instead we want to move them one dir up
-
-#take the size of our path
-size = len(getcwd()) - len('scripts')
-
-workingDirectory = getcwd()[0:size]
-
-worker = xmlToConfigParser(XML_SOURCE, workingDirectory) #TODO go up one dir!
+worker = xmlToConfigParser(XML_SOURCE, getcwd())
 worker.do()
