@@ -212,5 +212,13 @@ class xmlToConfigParser(object):
 #this is the xml which kde-projects provided
 XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
 
-worker = xmlToConfigParser(XML_SOURCE, getcwd()) #TODO go up one dir!
+#we don't want to put the config stuff inside the scripts dir,
+#instead we want to move them one dir up
+
+#take the size of our path
+size = len(getcwd()) - len('scripts')
+
+workingDirectory = getcwd()[0:size]
+
+worker = xmlToConfigParser(XML_SOURCE, workingDirectory) #TODO go up one dir!
 worker.do()
