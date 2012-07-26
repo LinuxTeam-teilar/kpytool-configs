@@ -109,8 +109,7 @@ class xmlToConfigParser(object):
                         #the attribute name already exists, so we will take its value
                         #with a different way
                         projectName = project.find('name').string.strip()
-                        if projectName:
-                            config.set(projectPath[2], 'name', projectName)
+                        config.set(projectPath[2], 'name', projectName)
 
                         config.set(projectPath[2], 'web', project.web.string)
                         config.set(projectPath[2], 'source_path', project.path.string)
@@ -136,8 +135,7 @@ class xmlToConfigParser(object):
                             config.add_section(projectPath[3])
 
                             projectName = project.find('name').string.strip()
-                            if projectName:
-                                config.set(projectPath[3], 'name', projectName)
+                            config.set(projectPath[3], 'name', projectName)
 
                             config.set(projectPath[3], 'web', project.web.string)
                             config.set(projectPath[3], 'source_path', project.path.string)
@@ -157,8 +155,7 @@ class xmlToConfigParser(object):
                             config.add_section(projectPath[2])
 
                             projectName = project.find('name').string.encode('latin1').strip()
-                            if projectName:
-                                config.set(projectPath[2], 'name', projectName)
+                            config.set(projectPath[2], 'name', projectName)
 
                             config.set(projectPath[2], 'web', project.web.string)
                             config.set(projectPath[2], 'source_path', project.path.string)
@@ -195,8 +192,7 @@ class xmlToConfigParser(object):
 
                         #the name attribute already exists
                         moduleName = module.find('name').string.strip()
-                        if moduleName:
-                            config.set(modulePath[1], 'name', moduleName)
+                        config.set(modulePath[1], 'name', moduleName)
 
                         config.set(modulePath[1], 'web', module.web.string)
                         config.set(modulePath[1], 'source_path', module.path.string)
