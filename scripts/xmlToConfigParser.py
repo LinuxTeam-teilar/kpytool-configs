@@ -11,7 +11,7 @@ class xmlToConfigParser(object):
 
         print """
         The config dirs will be created in the current dir,
-        if you aren't in the current dir, abort!!!
+        if you aren't in the right dir, abort!!!
         """
         raw_input("""
         If this isn\'t the first time that you use this script.
@@ -106,6 +106,10 @@ class xmlToConfigParser(object):
                         config = ConfigParser.RawConfigParser()
                         config.add_section(projectPath[2])
 
+                        #append the item only once
+                        if self._configItemExists(configFilePath, projectPath[2]):
+                            continue
+
                         #the attribute name already exists, so we will take its value
                         #with a different way
                         projectName = project.find('name').string.strip()
@@ -134,6 +138,10 @@ class xmlToConfigParser(object):
                             config = ConfigParser.RawConfigParser()
                             config.add_section(projectPath[3])
 
+                            #append the item only once
+                            if self._configItemExists(configFilePath, projectPath[3]):
+                                continue
+
                             projectName = project.find('name').string.strip()
                             config.set(projectPath[3], 'name', projectName)
 
@@ -153,6 +161,10 @@ class xmlToConfigParser(object):
 
                             config = ConfigParser.RawConfigParser()
                             config.add_section(projectPath[2])
+
+                            #append the item only once
+                            if self._configItemExists(configFilePath, projectPath[2]):
+                                continue
 
                             projectName = project.find('name').string.encode('latin1').strip()
                             config.set(projectPath[2], 'name', projectName)
@@ -190,6 +202,10 @@ class xmlToConfigParser(object):
                         config = ConfigParser.RawConfigParser()
                         config.add_section(modulePath[1])
 
+                        #append the item only once
+                        if self._configItemExists(configFilePath, modulePath[1]):
+                            continue
+
                         #the name attribute already exists
                         moduleName = module.find('name').string.strip()
                         config.set(modulePath[1], 'name', moduleName)
@@ -204,6 +220,17 @@ class xmlToConfigParser(object):
                         with open(configFilePath, 'a') as f:
                             #write the data in it!
                             config.write(f)
+
+
+    def _configItemExists(self, filePath, itemName):
+        config = ConfigParser.RawConfigParser()
+        config.read(filePath)
+        try:
+            config.get(itemName, 'name')
+            return True
+        except ConfigParser.NoSectionError:
+            return False
+
 
 #this is the xml which kde-projects provided
 XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
