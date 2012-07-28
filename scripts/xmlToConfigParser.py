@@ -255,7 +255,7 @@ class xmlToConfigParser(object):
 XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
 
 worker = xmlToConfigParser(XML_SOURCE, getcwd())
-#worker.do()
+worker.do()
 
 rename_configs = RenameConfigs()
 
