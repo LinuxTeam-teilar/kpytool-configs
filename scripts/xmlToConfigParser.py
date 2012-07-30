@@ -18,6 +18,7 @@
 #  Boston, MA 02110-1301, USA.
 
 from renameConfigs import RenameConfigs
+from common.common import CfgWriter
 
 import urllib2
 import ConfigParser
@@ -125,26 +126,21 @@ class xmlToConfigParser(object):
                     if projectPath[0] == 'kde':
                         configFilePath = self.configPath + projectPath[0] + '/' + projectPath[1] + '.cfg'
 
-                        config = ConfigParser.RawConfigParser()
-                        config.add_section(projectPath[2])
+                        cfgW = CfgWriter()
 
-                        #append the item only once
-                        if self._configItemExists(configFilePath, projectPath[2]):
-                            continue
+                        cfgW.configDestinationPath = configFilePath
+                        cfgW.sectionName = projectPath[2]
 
                         #the attribute name already exists, so we will take its value
                         #with a different way
-                        projectName = project.find('name').string.strip()
-                        config.set(projectPath[2], 'name', projectName)
+                        cfgW.name = project.find('name').string.strip()
 
-                        config.set(projectPath[2], 'web', project.web.string)
-                        config.set(projectPath[2], 'source_path', project.path.string)
-                        config.set(projectPath[2], 'git', project.repo.url.string)
+                        cfgW.web = project.web.string
+                        cfgW.source_path = project.path.string
+                        cfgW.cvs = 'git', project.repo.url.string
+                        #create the config!
+                        cfgW.write()
 
-                        #create our config file
-                        with open(configFilePath, 'a') as f:
-                            #write the data in it!
-                            config.write(f)
                     else:
                         if len(projectPath) == 4:
                             #extragear/network/
@@ -157,23 +153,20 @@ class xmlToConfigParser(object):
                             #extragear/network/telepathy.cfg
                             configFilePath = directory + projectPath[2] + '.cfg'
 
-                            config = ConfigParser.RawConfigParser()
-                            config.add_section(projectPath[3])
+                            cfgW = CfgWriter()
 
-                            #append the item only once
-                            if self._configItemExists(configFilePath, projectPath[3]):
-                                continue
+                            cfgW.configDestinationPath = configFilePath
+                            cfgW.sectionName = projectPath[2]
 
-                            projectName = project.find('name').string.strip()
-                            config.set(projectPath[3], 'name', projectName)
+                            #the attribute name already exists, so we will take its value
+                            #with a different way
+                            cfgW.name = project.find('name').string.strip()
 
-                            config.set(projectPath[3], 'web', project.web.string)
-                            config.set(projectPath[3], 'source_path', project.path.string)
-                            config.set(projectPath[3], 'git', project.repo.url.string)
-                            #create our config file
-                            with open(configFilePath, 'a') as f:
-                                #write the data in it!
-                                config.write(f)
+                            cfgW.web = project.web.string
+                            cfgW.source_path = project.path.string
+                            cfgW.cvs = 'git', project.repo.url.string
+                            #create the config!
+                            cfgW.write()
                         elif len(projectPath) == 3:
                             #playground/base/
                             dirPath = self.configPath + projectPath[0] + '/' + projectPath[1] + '/'
@@ -181,24 +174,21 @@ class xmlToConfigParser(object):
                                 mkdir(dirPath)
                             configFilePath = dirPath + projectPath[2] + '.cfg'
 
-                            config = ConfigParser.RawConfigParser()
-                            config.add_section(projectPath[2])
+                            cfgW = CfgWriter()
 
-                            #append the item only once
-                            if self._configItemExists(configFilePath, projectPath[2]):
-                                continue
+                            cfgW.configDestinationPath = configFilePath
+                            cfgW.sectionName = projectPath[2]
 
-                            projectName = project.find('name').string.encode('latin1').strip()
-                            config.set(projectPath[2], 'name', projectName)
+                            #the attribute name already exists, so we will take its value
+                            #with a different way
+                            cfgW.name = project.find('name').string.encode('latin1').strip()
 
-                            config.set(projectPath[2], 'web', project.web.string)
-                            config.set(projectPath[2], 'source_path', project.path.string)
-                            config.set(projectPath[2], 'git', project.repo.url.string)
+                            cfgW.web = project.web.string
+                            cfgW.source_path = project.path.string
+                            cfgW.cvs = 'git', project.repo.url.string
+                            #create the config!
+                            cfgW.write()
 
-                            #create our config file
-                            with open(configFilePath, 'a') as f:
-                                #write the data in it!
-                                config.write(f)
 
     def _moduleConfigFiles(self):
         for module in self.soup.find_all("module"):
@@ -221,28 +211,24 @@ class xmlToConfigParser(object):
                     if not path.isdir(moduleDir):
                         configFilePath = moduleDir + '.cfg'
 
-                        config = ConfigParser.RawConfigParser()
-                        config.add_section(modulePath[1])
+                        cfgW = CfgWriter()
 
-                        #append the item only once
-                        if self._configItemExists(configFilePath, modulePath[1]):
-                            continue
+                        cfgW.configDestinationPath = configFilePath
+                        cfgW.sectionName = modulePath[1]
 
-                        #the name attribute already exists
-                        moduleName = module.find('name').string.strip()
-                        config.set(modulePath[1], 'name', moduleName)
+                        #the attribute name already exists, so we will take its value
+                        #with a different way
+                        cfgW.name = module.find('name').string.encode('latin1').strip()
 
-                        config.set(modulePath[1], 'web', module.web.string)
-                        config.set(modulePath[1], 'source_path', module.path.string)
+                        cfgW.web = module.web.string
+                        cfgW.source_path = module.path.string
+
                         try:
-                            config.set(modulePath[1], 'git', module.repo.url.string)
+                            cfgW.cvs = 'git', module.repo.url.string
                         except AttributeError:
-                            continue
-                        #create our config file
-                        with open(configFilePath, 'a') as f:
-                            #write the data in it!
-                            config.write(f)
-
+                            pass
+                        #create the config!
+                        cfgW.write()
 
     """
     This method will rename the cfgs into their right names
