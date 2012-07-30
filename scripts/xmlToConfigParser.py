@@ -104,6 +104,9 @@ class xmlToConfigParser(object):
         self._projectConfigFiles()
         self._moduleConfigFiles()
 
+        #rename our modules
+        self._renameCfg()
+
 
     #It will create any necessary directory file for each element in
     #the xml, which is name 'project'
@@ -241,6 +244,27 @@ class xmlToConfigParser(object):
                             config.write(f)
 
 
+    """
+    This method will rename the cfgs into their right names
+    """
+    def _renameCfg(self):
+        rename_configs = RenameConfigs()
+
+        rename_configs_path = path.abspath(getcwd()) + '/config/'
+
+        #those are the modules which we want to rename
+        p = rename_configs_path + 'kde/kdelibs.cfg', rename_configs_path + 'kde/frameworks.cfg'
+
+        l = []
+        l.append(p)
+
+        for p in l:
+            rename_configs.oldConfigPath = p[0]
+            rename_configs.newConfigPath = p[1]
+
+            #do the work
+            rename_configs.do()
+
     def _configItemExists(self, filePath, itemName):
         config = ConfigParser.RawConfigParser()
         config.read(filePath)
@@ -257,20 +281,4 @@ XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
 worker = xmlToConfigParser(XML_SOURCE, getcwd())
 worker.do()
 
-rename_configs = RenameConfigs()
 
-rename_configs_path = path.abspath(getcwd()) + '/config/'
-
-#those are the modules which we want to rename
-p = rename_configs_path + 'kde/kdelibs.cfg', rename_configs_path + 'kde/frameworks.cfg'
-
-l = []
-l.append(p)
-
-for p in l:
-    rename_configs.oldConfigPath = p[0]
-     rename_configs.oldConfigPath
-    rename_configs.newConfigPath = p[1]
-
-    #do the work
-    rename_configs.do()
