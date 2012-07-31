@@ -25,10 +25,10 @@ from bs4 import BeautifulSoup
 
 class gitToConfigParser(object):
 
-    def __init__(self, xml_source, configDestinationPath):
+    def __init__(self, xml_source, configPath):
 
         #take the path
-        self.configDestinationPath = configDestinationPath
+        self.configPath = configPath
 
         #take the xml_source
         self.xml_source = xml_source
@@ -41,20 +41,12 @@ class gitToConfigParser(object):
     """
     def do(self):
         #create the soup and the config dir
-        self._createConfigDirAndSoup()
+        self._createSoup()
 
         #create the directories
         self._createComponentDirectories()
 
-    def _createConfigDirAndSoup(self):
-        #now create the config path
-        #this is the path in which we will store our configs
-        tmpPath = path.abspath(self.configDestinationPath)
-        self.configPath = tmpPath + '/config/'
-
-        if not path.exists(self.configPath):
-            mkdir(self.configPath)
-
+    def _createSoup(self):
         #open the xml
         xml = urllib2.urlopen(self.xml_source)
 
@@ -222,10 +214,8 @@ class gitToConfigParser(object):
     def _renameCfg(self):
         rename_configs = RenameConfigs()
 
-        rename_configs_path = path.abspath(self.configDestinationPath) + '/config/'
-
         #those are the modules which we want to rename
-        p = rename_configs_path + 'kde/kdelibs.cfg', rename_configs_path + 'kde/frameworks.cfg'
+        p = self.configPath + 'kde/kdelibs.cfg', self.configPath + 'kde/frameworks.cfg'
 
         l = []
         l.append(p)
