@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-
 #  Copyright 2012 by Giorgos Tsiapaliokas <terietor@gmail.com>
 #
 #  This program is free software; you can redistribute it and/or
@@ -22,24 +20,12 @@ from common.common import CfgWriter
 
 import urllib2
 import ConfigParser
-from os import path, mkdir, getcwd
+from os import path, mkdir
 from bs4 import BeautifulSoup
 
-class xmlToConfigParser(object):
+class gitToConfigParser(object):
 
     def __init__(self, xml_source, configDestinationPath):
-
-        print """
-        The config dirs will be created in the current dir,
-        if you aren't in the right dir, abort!!!
-        """
-        raw_input("""
-        If this isn\'t the first time that you use this script.
-        It will mess up your config files! So don\'t use it \n
-        Press enter to continue...
-        """)
-
-        print 'please wait....!'
 
         #take the path
         self.configDestinationPath = configDestinationPath
@@ -236,7 +222,7 @@ class xmlToConfigParser(object):
     def _renameCfg(self):
         rename_configs = RenameConfigs()
 
-        rename_configs_path = path.abspath(getcwd()) + '/config/'
+        rename_configs_path = path.abspath(self.configDestinationPath) + '/config/'
 
         #those are the modules which we want to rename
         p = rename_configs_path + 'kde/kdelibs.cfg', rename_configs_path + 'kde/frameworks.cfg'
@@ -259,12 +245,3 @@ class xmlToConfigParser(object):
             return True
         except ConfigParser.NoSectionError:
             return False
-
-
-#this is the xml which kde-projects provided
-XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
-
-worker = xmlToConfigParser(XML_SOURCE, getcwd())
-worker.do()
-
-
