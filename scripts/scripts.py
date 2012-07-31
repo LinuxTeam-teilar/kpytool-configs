@@ -17,8 +17,9 @@
 #  the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 #  Boston, MA 02110-1301, USA.
 
-from os import getcwd
+from os import getcwd, path, mkdir
 from gitToConfigParser.gitToConfigParser import gitToConfigParser
+from svnToConfigParser.svnToConfigParser import svnToConfigParser
 
 print """
     The config dirs will be created in the current dir,
@@ -33,9 +34,21 @@ raw_input("""
 
 print 'please wait....!'
 
+
+#get the dest path
+destPath = path.abspath(getcwd()) + '/config/'
+
+#now create the config path
+#this is the path in which we will store our configs
+
+if not path.exists(destPath):
+    mkdir(destPath)
+
 #this is the xml which kde-projects provided
 XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
 
-#the worker will also create the config dir for as
-worker = gitToConfigParser(XML_SOURCE, getcwd())
-worker.do()
+w = gitToConfigParser(XML_SOURCE, destPath)
+w.do()
+
+#create the cfg file for the project which are on svn
+svnToConfigParser.do(destPath)
