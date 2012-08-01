@@ -18,32 +18,32 @@
 from common.common import CfgWriter
 from os import path, mkdir
 
-class svnToConfigParser(object):
+class thirdParty(object):
 
     @staticmethod
     def do(destPath):
 
-        artwork = {
-            'configDestinationPath': destPath + 'kdeartwork.cfg',
-            'sectionName': 'kdeartwork',
-            'name': 'kdeartwork',
-            'web': 'http://websvn.kde.org/trunk/KDE/kdeartwork/',
-            'source_path': 'kdeartwork',
-            'cvs': ('svn', 'svn://anonsvn.kde.org/home/kde/trunk/KDE/kdeartwork')
+        sdo = {
+            'configDestinationPath': destPath + 'share-desktop-ontologies.cfg',
+            'sectionName': 'shared-desktop-ontologies',
+            'name': 'shared-desktop-ontologies',
+            'web': 'http://oscaf.sourceforge.net/',
+            'source_path': 'shared-desktop-ontologies',
+            'cvs': ('git', 'git://oscaf.git.sourceforge.net/gitroot/oscaf/shared-desktop-ontologies')
         }
 
-        wallpaper = {
-            'configDestinationPath': destPath + 'kde-wallpapers.cfg',
-            'sectionName': 'kde-wallpapers',
-            'name': 'kde-wallpapers',
-            'web': 'http://websvn.kde.org/trunk/KDE/kde-wallpapers/',
-            'source_path': 'kde-wallpapers',
-            'cvs': ('svn', 'svn://anonsvn.kde.org/home/kde/trunk/KDE/kde-wallpapers')
+        libdbusmenuqt = {
+            'configDestinationPath': destPath + 'libdbusmenu-qt.cfg',
+            'sectionName': 'libdbusmenu-qt',
+            'name': 'libdbusmenu-qt',
+            'web': 'https://launchpad.net/libdbusmenu-qt',
+            'source_path': 'libdbusmenu-qt',
+            'cvs': ('bzr', 'lp:libdbusmenu-qt')
         }
 
         l = []
-        l.append(artwork)
-        l.append(wallpaper)
+        l.append(sdo)
+        l.append(libdbusmenuqt)
 
         for i in l:
             cfgW = CfgWriter()

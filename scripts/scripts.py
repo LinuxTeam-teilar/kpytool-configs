@@ -20,6 +20,7 @@
 from os import getcwd, path, mkdir
 from gitToConfigParser.gitToConfigParser import gitToConfigParser
 from svnToConfigParser.svnToConfigParser import svnToConfigParser
+from thirdParty.thirdparty import thirdParty
 
 print """
     The config dirs will be created in the current dir,
@@ -50,5 +51,8 @@ XML_SOURCE = 'https://projects.kde.org/kde_projects.xml'
 w = gitToConfigParser(XML_SOURCE, destPath)
 w.do()
 
-#create the cfg file for the project which are on svn
+#create the cfg file for the projects which are on svn
 svnToConfigParser.do(destPath)
+
+#create the cfg file for the 3rd-party projects
+thirdParty.do(destPath)
