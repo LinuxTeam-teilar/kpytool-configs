@@ -70,7 +70,7 @@ class CfgWriter(object):
     def web(self):
         return self._web
 
-    @name.setter
+    @web.setter
     def web(self, w):
         self._web = w
 
