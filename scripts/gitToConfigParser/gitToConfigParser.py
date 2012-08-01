@@ -226,12 +226,3 @@ class gitToConfigParser(object):
 
             #do the work
             rename_configs.do()
-
-    def _configItemExists(self, filePath, itemName):
-        config = ConfigParser.RawConfigParser()
-        config.read(filePath)
-        try:
-            config.get(itemName, 'name')
-            return True
-        except ConfigParser.NoSectionError:
-            return False
