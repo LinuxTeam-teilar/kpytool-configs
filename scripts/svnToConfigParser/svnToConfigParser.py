@@ -41,9 +41,29 @@ class svnToConfigParser(object):
             'cvs': ('svn', 'svn://anonsvn.kde.org/home/kde/trunk/KDE/kde-wallpapers')
         }
 
+        sdo = {
+            'configDestinationPath': destPath + 'share-desktop-ontologies.cfg',
+            'sectionName': 'shared-desktop-ontologies',
+            'name': 'shared-desktop-ontologies',
+            'web': 'http://oscaf.sourceforge.net/',
+            'source_path': 'shared-desktop-ontologies',
+            'cvs': ('git', 'git://oscaf.git.sourceforge.net/gitroot/oscaf/shared-desktop-ontologies')
+        }
+
+        libdbusmenuqt = {
+            'configDestinationPath': destPath + 'libdbusmenu-qt.cfg',
+            'sectionName': 'libdbusmenu-qt',
+            'name': 'libdbusmenu-qt',
+            'web': 'https://launchpad.net/libdbusmenu-qt',
+            'source_path': 'libdbusmenu-qt',
+            'cvs': ('bzr', 'lp:libdbusmenu-qt')
+        }
+
         l = []
         l.append(artwork)
         l.append(wallpaper)
+        l.append(sdo)
+        l.append(libdbusmenuqt)
 
         for i in l:
             cfgW = CfgWriter()
