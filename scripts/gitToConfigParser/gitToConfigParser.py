@@ -78,10 +78,12 @@ class gitToConfigParser(object):
             if not path.exists(releasePath):
                 mkdir(releasePath)
 
-        #now create the dirs for our projects and modules
+        #now create the dirs for our projects, modules
+        #and components
         #I took the names project and module from the xml
         self._projectConfigFiles()
         self._moduleConfigFiles()
+        self._componentConfigFiles()
 
         #rename our modules
         self._renameCfg()
@@ -207,6 +209,31 @@ class gitToConfigParser(object):
                             pass
                         #create the config!
                         cfgW.write()
+
+    def _componentConfigFiles(self):
+        for component in self.soup.find_all("component"):
+            componentPath = component.path.string.split('/')
+            if componentPath[0] != 'calligra':
+                continue
+
+            #something like config/calligra/calligra.cfg
+            configFilePath = self.configPath + 'calligra/' + 'calligra.cfg'
+
+            cfgW = CfgWriter()
+
+            cfgW.configDestinationPath = configFilePath
+            cfgW.sectionName = componentPath[0]
+
+            #the attribute name already exists, so we will take its value
+            #with a different way
+            print component.find('name').string.encode('latin1').strip()
+            cfgW.name = component.find('name').string.encode('latin1').strip()
+            cfgW.web = component.web.string
+            cfgW.source_path = component.path.string
+            cfgW.cvs = 'git', component.repo.url.string
+
+            #create the config!
+            cfgW.write()
 
     """
     This method will rename the cfgs into their right names
