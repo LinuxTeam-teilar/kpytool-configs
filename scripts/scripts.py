@@ -21,6 +21,28 @@ from os import getcwd, path, mkdir
 from gitToConfigParser.gitToConfigParser import gitToConfigParser
 from svnToConfigParser import svnToConfigParser
 from thirdparty import thirdParty
+import argparse
+import logging
+
+parser = argparse.ArgumentParser('The script which will create our config files')
+
+parser.add_argument('--debug', action = 'store_true',
+                    default = False, dest = 'debug',
+                    help = 'Use it in order to have a verbose output')
+
+results = parser.parse_args()
+
+#create our logger
+logger = logging.getLogger('kpytool')
+
+if results.debug:
+    logger.setLevel(logging.DEBUG)
+
+handler = logging.StreamHandler()
+formatter = logging.Formatter('%(levelname)s: %(name)s: %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 
 print """
     The config dirs will be created in the current dir,
