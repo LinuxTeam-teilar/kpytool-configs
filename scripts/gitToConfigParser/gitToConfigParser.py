@@ -226,7 +226,6 @@ class gitToConfigParser(object):
 
             #the attribute name already exists, so we will take its value
             #with a different way
-            print component.find('name').string.encode('latin1').strip()
             cfgW.name = component.find('name').string.encode('latin1').strip()
             cfgW.web = component.web.string
             cfgW.source_path = component.path.string
