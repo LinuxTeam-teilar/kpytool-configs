@@ -19,8 +19,8 @@
 
 from os import getcwd, path, mkdir
 from gitToConfigParser.gitToConfigParser import gitToConfigParser
-from svnToConfigParser.svnToConfigParser import svnToConfigParser
-from thirdParty.thirdparty import thirdParty
+from svnToConfigParser import svnToConfigParser
+from thirdparty import thirdParty
 
 print """
     The config dirs will be created in the current dir,
