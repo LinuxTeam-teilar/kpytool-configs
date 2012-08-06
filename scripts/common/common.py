@@ -126,9 +126,6 @@ class CfgWriter(object):
 
         if self.cvs:
             config.set(self.sectionName, self.cvs[0], self.cvs[1])
-            if self.cvs[0] == 'git':
-                #git exists, so make master the default branch
-                config.set(self.sectionName, 'branch', 'master')
         else:
             raise exc.CVSValueError
 
