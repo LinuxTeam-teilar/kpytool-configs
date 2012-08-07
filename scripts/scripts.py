@@ -17,14 +17,21 @@
 #  the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
 #  Boston, MA 02110-1301, USA.
 
-from os import getcwd, path, mkdir
+
 from gitToConfigParser.gitToConfigParser import gitToConfigParser
 from svnToConfigParser import svnToConfigParser
 from thirdparty import thirdParty
+import distribute
+
+from os import getcwd, path, mkdir
 import argparse
 import logging
 
 parser = argparse.ArgumentParser('The script which will create our config files')
+
+parser.add_argument('--generate-tarball', action = 'store_true',
+                    default = False, dest = 'tarball',
+                    help = 'Use it in order to have a verbose output')
 
 parser.add_argument('--debug', action = 'store_true',
                     default = False, dest = 'debug',
@@ -59,7 +66,8 @@ print 'please wait....!'
 
 
 #get the dest path
-destPath = path.abspath(getcwd()) + '/config/'
+currentPath = path.abspath(getcwd())
+destPath =  currentPath + '/config/'
 
 #now create the config path
 #this is the path in which we will store our configs
@@ -78,3 +86,6 @@ svnToConfigParser.do(destPath)
 
 #create the cfg file for the 3rd-party projects
 thirdParty.do(destPath)
+
+if results.tarball:
+    distribute.createTar('config', currentPath + '/VERSION')
