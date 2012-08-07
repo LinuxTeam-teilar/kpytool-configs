@@ -27,6 +27,8 @@ from os import getcwd, path, mkdir
 import argparse
 import logging
 
+CONFIG_DIR_NAME = 'kpytool-configs'
+
 parser = argparse.ArgumentParser('The script which will create our config files')
 
 parser.add_argument('--generate-tarball', action = 'store_true',
@@ -67,7 +69,7 @@ print 'please wait....!'
 
 #get the dest path
 currentPath = path.abspath(getcwd())
-destPath =  currentPath + '/config/'
+destPath =  currentPath + '/' + CONFIG_DIR_NAME + '/'
 
 #now create the config path
 #this is the path in which we will store our configs
@@ -88,4 +90,4 @@ svnToConfigParser.do(destPath)
 thirdParty.do(destPath)
 
 if results.tarball:
-    distribute.createTar('config', currentPath + '/VERSION')
+    distribute.createTar(CONFIG_DIR_NAME, currentPath + '/VERSION')
