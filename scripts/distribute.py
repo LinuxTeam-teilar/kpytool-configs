@@ -22,7 +22,6 @@ It will generate a tarball which will
 contain the kpytool-configs
 """
 def createTar(configPath, vesrionPath):
-    logger.debug(configPath)
     with open(vesrionPath, 'r') as f:
         version = f.readline().strip()
         tar = tarfile.open('kpytool-configs-' + version + '.tar.gz', 'w:gz')
